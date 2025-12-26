@@ -1,0 +1,26 @@
+@startuml
+title Library Management System - Odunc Alma
+
+actor Uye
+participant "Library Controller" as LC
+participant "Loan Service" as LoanService
+database "Book Repository" as BookRepo
+database "Loan Repository" as LoanRepo
+
+Uye -> LC: odunc_al(isbn)
+LC -> LoanService: func()
+
+LoanService -> BookRepo: kitap_getir(param)
+BookRepo --> LoanService: kitap
+
+LoanService -> LoanService: uygun_mu()
+
+LoanService -> LoanRepo: odunc_kaydi_olustur(uye_id, isbn)
+LoanRepo --> LoanService: odunc_kaydi
+
+LoanService -> BookRepo: kitap_durum_guncelle(isbn, oduncte)
+
+LoanService --> LC: basarili
+LC --> Uye: odunc islemi tamamlandi
+
+@enduml
